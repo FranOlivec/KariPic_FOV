@@ -1,5 +1,6 @@
 class PublicationsController < ApplicationController
-  before_action :set_publication, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :karina_only, only: [:create, :new, :edit, :update, :destroy]
 
   # GET /publications or /publications.json
   def index
@@ -66,5 +67,11 @@ class PublicationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def publication_params
       params.require(:publication).permit(:user_id, :caption, :image)
+    end
+    
+    def karina_only
+      unless current_user.email == 'karina@gmail.com'  
+        redirect_to root_path, alert: 'Acceso denegado.'
+      end
     end
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'homes/index'
   resources :comments
   resources :publications
   devise_for :users
